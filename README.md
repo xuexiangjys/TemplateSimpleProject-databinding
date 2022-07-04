@@ -1,6 +1,6 @@
-# TemplateSimpleProject-databind
+# TemplateSimpleProject-databinding
 
-简化版的Android空壳模版工程(kotlin-databind版本)，快速搭建（集成了XUI、XUtil、XAOP、XPage、友盟统计和walle多渠道打包)
+简化版的Android空壳模版工程(kotlin-databinding版本)，快速搭建（集成了XUI、XUtil、XAOP、XPage、友盟统计和walle多渠道打包)
 
 **【注意】** 本模板适用于Android Studio 4.0及以上版本。
 
