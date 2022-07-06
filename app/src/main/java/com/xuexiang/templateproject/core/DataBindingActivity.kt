@@ -16,11 +16,8 @@
  */
 package com.xuexiang.templateproject.core
 
-import android.R
 import android.content.Context
 import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.xuexiang.xpage.base.XPageActivity
@@ -31,12 +28,12 @@ import com.xuexiang.xrouter.launcher.XRouter
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 
 /**
- * 基础容器Activity
+ * 基础容器Activity(DataBinding)
  *
  * @author XUE
  * @since 2019/3/22 11:21
  */
-open class BaseActivity<DataBinding : ViewDataBinding?> : XPageActivity() {
+open class DataBindingActivity<DataBinding : ViewDataBinding?> : XPageActivity() {
 
     /**
      * ViewBinding

@@ -17,20 +17,20 @@
 package com.xuexiang.templateproject.fragment
 
 import com.xuexiang.templateproject.R
-import com.xuexiang.templateproject.core.BaseFragment
-import com.xuexiang.templateproject.databinding.FragmentEmptyBinding
+import com.xuexiang.templateproject.core.DataBindingFragment
+import com.xuexiang.templateproject.databinding.FragmentDataBindingEmptyBinding
 import com.xuexiang.xpage.annotation.Page
 
 /**
- * 这个只是一个空壳Fragment，只是用于演示而已
+ * 这个是使用DataBinding布局，自动生成的是ViewDataBinding
  *
  * @author xuexiang
  * @since 2019-07-08 00:52
  */
-@Page(name = "空页面")
-class EmptyFragment : BaseFragment<FragmentEmptyBinding?>() {
+@Page(name = "DataBinding空页面")
+class EmptyDataBindingFragment : DataBindingFragment<FragmentDataBindingEmptyBinding?>() {
 
-    override fun getLayoutId() = R.layout.fragment_empty
+    override fun getLayoutId() = R.layout.fragment_data_binding_empty
 
     /**
      * 初始化控件

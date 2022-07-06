@@ -21,8 +21,6 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.umeng.analytics.MobclickAgent
@@ -46,20 +44,30 @@ import java.lang.reflect.Type
  * @author xuexiang
  * @since 2018/5/25 下午3:44
  */
-abstract class BaseFragment<DataBinding : ViewDataBinding?> : XPageFragment() {
+abstract class ViewBindingFragment<Binding : ViewBinding?> : XPageFragment() {
     private var mIMessageLoader: IMessageLoader? = null
     /**
      * ViewBinding
      */
-    var binding: DataBinding? = null
+    var binding: Binding? = null
         protected set
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup): View? {
-        binding = DataBindingUtil.inflate<DataBinding>(inflater, getLayoutId(), container, false)
+        binding = viewBindingInflate(inflater, container)
         return binding?.root
     }
 
-    abstract fun getLayoutId(): Int
+    /**
+     * 构建ViewBinding
+     *
+     * @param inflater  inflater
+     * @param container 容器
+     * @return ViewBinding
+     */
+    protected abstract fun viewBindingInflate(
+        inflater: LayoutInflater,
+        container: ViewGroup
+    ): Binding
 
     override fun initPage() {
         initTitle()
@@ -72,13 +80,13 @@ abstract class BaseFragment<DataBinding : ViewDataBinding?> : XPageFragment() {
     }
 
     override fun initListeners() {}
-    val messageLoader: IMessageLoader?
-        get() {
-            if (mIMessageLoader == null) {
-                mIMessageLoader = WidgetUtils.getMiniLoadingDialog(requireContext())
-            }
-            return mIMessageLoader
+
+    fun getMessageLoader(): IMessageLoader? {
+        if (mIMessageLoader == null) {
+            mIMessageLoader = WidgetUtils.getMiniLoadingDialog(requireContext())
         }
+        return mIMessageLoader
+    }
 
     fun getMessageLoader(message: String?): IMessageLoader? {
         if (mIMessageLoader == null) {

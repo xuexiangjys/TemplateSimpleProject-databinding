@@ -18,8 +18,7 @@ package com.xuexiang.templateproject.activity
 
 import android.os.Bundle
 import androidx.databinding.ViewDataBinding
-import androidx.viewbinding.ViewBinding
-import com.xuexiang.templateproject.core.BaseActivity
+import com.xuexiang.templateproject.core.DataBindingActivity
 import com.xuexiang.templateproject.fragment.MainFragment
 
 /**
@@ -28,7 +27,7 @@ import com.xuexiang.templateproject.fragment.MainFragment
  * @author xuexiang
  * @since 2019-07-07 23:53
  */
-class MainActivity : BaseActivity<ViewDataBinding?>() {
+class MainActivity : DataBindingActivity<ViewDataBinding?>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -18,7 +18,7 @@ package com.xuexiang.templateproject.utils.sdkinit
 
 import android.app.Application
 import com.xuexiang.templateproject.MyApp
-import com.xuexiang.templateproject.core.BaseActivity
+import com.xuexiang.templateproject.core.DataBindingActivity
 import com.xuexiang.templateproject.utils.XToastUtils
 import com.xuexiang.xaop.XAOP
 import com.xuexiang.xpage.PageConfig
@@ -69,7 +69,7 @@ class XBasicLibInit private constructor() {
         private fun initXPage(application: Application) {
             PageConfig.getInstance()
                     .debug(MyApp.isDebug)
-                    .setContainActivityClazz(BaseActivity::class.java)
+                    .setContainActivityClazz(DataBindingActivity::class.java)
                     .init(application)
         }
 
