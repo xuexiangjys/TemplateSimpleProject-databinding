@@ -39,13 +39,15 @@ import java.io.Serializable
 import java.lang.reflect.Type
 
 /**
- * 基础fragment
+ * 基础fragment(ViewBinding)
  *
  * @author xuexiang
  * @since 2018/5/25 下午3:44
  */
 abstract class ViewBindingFragment<Binding : ViewBinding?> : XPageFragment() {
+
     private var mIMessageLoader: IMessageLoader? = null
+
     /**
      * ViewBinding
      */
@@ -184,33 +186,15 @@ abstract class ViewBindingFragment<Binding : ViewBinding?> : XPageFragment() {
 
     private fun openPage(option: PageOption, key: String?, value: Any?): Fragment? {
         when (value) {
-            is Int -> {
-                option.putInt(key, value)
-            }
-            is Float -> {
-                option.putFloat(key, value)
-            }
-            is String -> {
-                option.putString(key, value)
-            }
-            is Boolean -> {
-                option.putBoolean(key, value)
-            }
-            is Long -> {
-                option.putLong(key, value)
-            }
-            is Double -> {
-                option.putDouble(key, value)
-            }
-            is Parcelable -> {
-                option.putParcelable(key, value)
-            }
-            is Serializable -> {
-                option.putSerializable(key, value)
-            }
-            else -> {
-                option.putString(key, serializeObject(value))
-            }
+            is Int -> option.putInt(key, value)
+            is Float -> option.putFloat(key, value)
+            is String -> option.putString(key, value)
+            is Boolean -> option.putBoolean(key, value)
+            is Long -> option.putLong(key, value)
+            is Double -> option.putDouble(key, value)
+            is Parcelable -> option.putParcelable(key, value)
+            is Serializable -> option.putSerializable(key, value)
+            else -> option.putString(key, serializeObject(value))
         }
         return option.open(this)
     }

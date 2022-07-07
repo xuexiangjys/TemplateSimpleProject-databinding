@@ -46,6 +46,7 @@ import java.lang.reflect.Type
  * @since 2018/5/25 下午3:44
  */
 abstract class DataBindingFragment<DataBinding : ViewDataBinding?> : XPageFragment() {
+
     private var mIMessageLoader: IMessageLoader? = null
 
     /**
@@ -177,33 +178,15 @@ abstract class DataBindingFragment<DataBinding : ViewDataBinding?> : XPageFragme
 
     private fun openPage(option: PageOption, key: String?, value: Any?): Fragment? {
         when (value) {
-            is Int -> {
-                option.putInt(key, value)
-            }
-            is Float -> {
-                option.putFloat(key, value)
-            }
-            is String -> {
-                option.putString(key, value)
-            }
-            is Boolean -> {
-                option.putBoolean(key, value)
-            }
-            is Long -> {
-                option.putLong(key, value)
-            }
-            is Double -> {
-                option.putDouble(key, value)
-            }
-            is Parcelable -> {
-                option.putParcelable(key, value)
-            }
-            is Serializable -> {
-                option.putSerializable(key, value)
-            }
-            else -> {
-                option.putString(key, serializeObject(value))
-            }
+            is Int -> option.putInt(key, value)
+            is Float -> option.putFloat(key, value)
+            is String -> option.putString(key, value)
+            is Boolean -> option.putBoolean(key, value)
+            is Long -> option.putLong(key, value)
+            is Double -> option.putDouble(key, value)
+            is Parcelable -> option.putParcelable(key, value)
+            is Serializable -> option.putSerializable(key, value)
+            else -> option.putString(key, serializeObject(value))
         }
         return option.open(this)
     }
@@ -340,9 +323,9 @@ abstract class DataBindingFragment<DataBinding : ViewDataBinding?> : XPageFragme
      * @param object 需要序列化的对象
      * @return 序列化结果
      */
-    fun serializeObject(`object`: Any?): String {
+    fun serializeObject(target: Any?): String {
         return XRouter.getInstance().navigation(SerializationService::class.java)
-            .object2Json(`object`)
+            .object2Json(target)
     }
 
     /**
