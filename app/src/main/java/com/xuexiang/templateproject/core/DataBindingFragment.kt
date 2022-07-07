@@ -50,7 +50,7 @@ abstract class DataBindingFragment<DataBinding : ViewDataBinding?> : XPageFragme
     private var mIMessageLoader: IMessageLoader? = null
 
     /**
-     * ViewBinding
+     * DataBinding, XML布局要加<layout></layout>
      */
     var binding: DataBinding? = null
         protected set
