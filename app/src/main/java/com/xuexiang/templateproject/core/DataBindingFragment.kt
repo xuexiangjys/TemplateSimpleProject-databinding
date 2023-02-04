@@ -47,7 +47,7 @@ import java.lang.reflect.Type
  */
 abstract class DataBindingFragment<DataBinding : ViewDataBinding?> : XPageFragment() {
 
-    private var mIMessageLoader: IMessageLoader? = null
+    private var mMessageLoader: IMessageLoader? = null
 
     /**
      * DataBinding, XML布局要加<layout></layout>
@@ -57,7 +57,16 @@ abstract class DataBindingFragment<DataBinding : ViewDataBinding?> : XPageFragme
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup): View? {
         binding = DataBindingUtil.inflate<DataBinding>(inflater, getLayoutId(), container, false)
+        onDataBindingUpdate(binding)
         return binding?.root
+    }
+
+    /**
+     * DataBinding更新
+     * @param binding DataBinding
+     */
+    open fun onDataBindingUpdate(binding: DataBinding?) {
+
     }
 
     abstract fun getLayoutId(): Int
@@ -75,19 +84,19 @@ abstract class DataBindingFragment<DataBinding : ViewDataBinding?> : XPageFragme
     override fun initListeners() {}
 
     fun getMessageLoader(): IMessageLoader? {
-        if (mIMessageLoader == null) {
-            mIMessageLoader = WidgetUtils.getMiniLoadingDialog(requireContext())
+        if (mMessageLoader == null) {
+            mMessageLoader = WidgetUtils.getMiniLoadingDialog(requireContext())
         }
-        return mIMessageLoader
+        return mMessageLoader
     }
 
-    fun getMessageLoader(message: String?): IMessageLoader? {
-        if (mIMessageLoader == null) {
-            mIMessageLoader = WidgetUtils.getMiniLoadingDialog(requireContext(), message!!)
+    fun getMessageLoader(message: String): IMessageLoader? {
+        if (mMessageLoader == null) {
+            mMessageLoader = WidgetUtils.getMiniLoadingDialog(requireContext(), message)
         } else {
-            mIMessageLoader?.updateMessage(message)
+            mMessageLoader?.updateMessage(message)
         }
-        return mIMessageLoader
+        return mMessageLoader
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -101,8 +110,17 @@ abstract class DataBindingFragment<DataBinding : ViewDataBinding?> : XPageFragme
     }
 
     override fun onDestroyView() {
-        mIMessageLoader?.dismiss()
+        mMessageLoader?.dismiss()
+        mMessageLoader = null
         super.onDestroyView()
+        onDataBindingUnbind()
+    }
+
+    /**
+     * DataBinding解绑
+     */
+    open fun onDataBindingUnbind() {
+        binding?.unbind()
         binding = null
     }
 
@@ -125,9 +143,7 @@ abstract class DataBindingFragment<DataBinding : ViewDataBinding?> : XPageFragme
      * @return
     </T> */
     fun <T : XPageFragment?> openNewPage(clazz: Class<T>?): Fragment? {
-        return PageOption(clazz)
-            .setNewActivity(true)
-            .open(this)
+        return PageOption(clazz).setNewActivity(true).open(this)
     }
 
     /**
@@ -138,10 +154,7 @@ abstract class DataBindingFragment<DataBinding : ViewDataBinding?> : XPageFragme
      * @return
     </T> */
     fun <T : XPageFragment?> openNewPage(pageName: String?): Fragment? {
-        return PageOption(pageName)
-            .setAnim(CoreAnim.slide)
-            .setNewActivity(true)
-            .open(this)
+        return PageOption(pageName).setAnim(CoreAnim.slide).setNewActivity(true).open(this)
     }
 
     /**
@@ -153,12 +166,9 @@ abstract class DataBindingFragment<DataBinding : ViewDataBinding?> : XPageFragme
      * @return
     </T> */
     fun <T : XPageFragment?> openNewPage(
-        clazz: Class<T>?,
-        containActivityClazz: Class<out XPageActivity?>
+        clazz: Class<T>?, containActivityClazz: Class<out XPageActivity?>
     ): Fragment? {
-        return PageOption(clazz)
-            .setNewActivity(true)
-            .setContainActivityClazz(containActivityClazz)
+        return PageOption(clazz).setNewActivity(true).setContainActivityClazz(containActivityClazz)
             .open(this)
     }
 
@@ -202,15 +212,9 @@ abstract class DataBindingFragment<DataBinding : ViewDataBinding?> : XPageFragme
      * @return
     </T> */
     fun <T : XPageFragment?> openPage(
-        clazz: Class<T>?,
-        addToBackStack: Boolean,
-        key: String?,
-        value: String?
+        clazz: Class<T>?, addToBackStack: Boolean, key: String?, value: String?
     ): Fragment? {
-        return PageOption(clazz)
-            .setAddToBackStack(addToBackStack)
-            .putString(key, value)
-            .open(this)
+        return PageOption(clazz).setAddToBackStack(addToBackStack).putString(key, value).open(this)
     }
 
     /**
@@ -237,10 +241,7 @@ abstract class DataBindingFragment<DataBinding : ViewDataBinding?> : XPageFragme
      * @return
     </T> */
     fun <T : XPageFragment?> openPage(
-        clazz: Class<T>?,
-        addToBackStack: Boolean,
-        key: String?,
-        value: Any?
+        clazz: Class<T>?, addToBackStack: Boolean, key: String?, value: Any?
     ): Fragment? {
         val option = PageOption(clazz).setAddToBackStack(addToBackStack)
         return openPage(option, key, value)
@@ -256,9 +257,7 @@ abstract class DataBindingFragment<DataBinding : ViewDataBinding?> : XPageFragme
      * @return
     </T> */
     fun <T : XPageFragment?> openPage(clazz: Class<T>?, key: String?, value: String?): Fragment? {
-        return PageOption(clazz)
-            .putString(key, value)
-            .open(this)
+        return PageOption(clazz).putString(key, value).open(this)
     }
 
     /**
@@ -272,10 +271,7 @@ abstract class DataBindingFragment<DataBinding : ViewDataBinding?> : XPageFragme
      * @return
     </T> */
     fun <T : XPageFragment?> openPageForResult(
-        clazz: Class<T>?,
-        key: String?,
-        value: Any?,
-        requestCode: Int
+        clazz: Class<T>?, key: String?, value: Any?, requestCode: Int
     ): Fragment? {
         val option = PageOption(clazz).setRequestCode(requestCode)
         return openPage(option, key, value)
@@ -292,15 +288,9 @@ abstract class DataBindingFragment<DataBinding : ViewDataBinding?> : XPageFragme
      * @return
     </T> */
     fun <T : XPageFragment?> openPageForResult(
-        clazz: Class<T>?,
-        key: String?,
-        value: String?,
-        requestCode: Int
+        clazz: Class<T>?, key: String?, value: String?, requestCode: Int
     ): Fragment? {
-        return PageOption(clazz)
-            .setRequestCode(requestCode)
-            .putString(key, value)
-            .open(this)
+        return PageOption(clazz).setRequestCode(requestCode).putString(key, value).open(this)
     }
 
     /**
@@ -312,9 +302,7 @@ abstract class DataBindingFragment<DataBinding : ViewDataBinding?> : XPageFragme
      * @return
     </T> */
     fun <T : XPageFragment?> openPageForResult(clazz: Class<T>?, requestCode: Int): Fragment? {
-        return PageOption(clazz)
-            .setRequestCode(requestCode)
-            .open(this)
+        return PageOption(clazz).setRequestCode(requestCode).open(this)
     }
 
     /**

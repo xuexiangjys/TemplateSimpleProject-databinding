@@ -55,9 +55,18 @@ open class DataBindingActivity<DataBinding : ViewDataBinding?> : XPageActivity()
         val rootId = getCustomRootId()
         if (rootId != -1) {
             binding = DataBindingUtil.setContentView(this, rootId)
+            onDataBindingUpdate(binding)
         } else {
             setContentView(baseLayout)
         }
+    }
+
+    /**
+     * DataBinding更新
+     * @param binding DataBinding
+     */
+    open fun onDataBindingUpdate(binding: DataBinding?) {
+
     }
 
     open fun getCustomRootId() = -1
@@ -66,6 +75,19 @@ open class DataBindingActivity<DataBinding : ViewDataBinding?> : XPageActivity()
      * 初始化状态栏的样式
      */
     open fun initStatusBarStyle() {}
+
+    override fun onDestroy() {
+        super.onDestroy()
+        onDataBindingUnbind()
+    }
+
+    /**
+     * DataBinding解绑
+     */
+    open fun onDataBindingUnbind() {
+        binding?.unbind()
+        binding = null
+    }
 
     /**
      * 打开fragment

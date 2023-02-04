@@ -49,7 +49,16 @@ open class ViewBindingActivity<Binding : ViewBinding?> : XPageActivity() {
 
     override fun getCustomRootView(): View? {
         binding = viewBindingInflate(layoutInflater)
+        onViewBindingUpdate(binding)
         return binding?.root
+    }
+
+    /**
+     * ViewBinding更新
+     * @param binding ViewBinding
+     */
+    open fun onViewBindingUpdate(binding: Binding?) {
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,6 +80,18 @@ open class ViewBindingActivity<Binding : ViewBinding?> : XPageActivity() {
      * 初始化状态栏的样式
      */
     open fun initStatusBarStyle() {}
+
+    override fun onDestroy() {
+        super.onDestroy()
+        onViewBindingUnbind()
+    }
+
+    /**
+     * ViewBinding解绑
+     */
+    open fun onViewBindingUnbind() {
+        binding = null
+    }
 
     /**
      * 打开fragment

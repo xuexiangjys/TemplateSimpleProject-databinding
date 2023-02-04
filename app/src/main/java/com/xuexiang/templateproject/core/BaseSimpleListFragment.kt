@@ -67,6 +67,7 @@ abstract class BaseSimpleListFragment : XPageSimpleListFragment() {
         super.onPause()
         MobclickAgent.onPageEnd(pageName)
     }
+
     //==============================页面跳转api===================================//
     /**
      * 打开一个新的页面【建议只在主tab页使用】
@@ -76,9 +77,7 @@ abstract class BaseSimpleListFragment : XPageSimpleListFragment() {
      * @return
     </T> */
     fun <T : XPageFragment?> openNewPage(clazz: Class<T>?): Fragment? {
-        return PageOption(clazz)
-            .setNewActivity(true)
-            .open(this)
+        return PageOption(clazz).setNewActivity(true).open(this)
     }
 
     /**
@@ -89,10 +88,7 @@ abstract class BaseSimpleListFragment : XPageSimpleListFragment() {
      * @return
     </T> */
     fun <T : XPageFragment?> openNewPage(pageName: String?): Fragment? {
-        return PageOption(pageName)
-            .setAnim(CoreAnim.slide)
-            .setNewActivity(true)
-            .open(this)
+        return PageOption(pageName).setAnim(CoreAnim.slide).setNewActivity(true).open(this)
     }
 
     /**
@@ -104,12 +100,9 @@ abstract class BaseSimpleListFragment : XPageSimpleListFragment() {
      * @return
     </T> */
     fun <T : XPageFragment?> openNewPage(
-        clazz: Class<T>?,
-        containActivityClazz: Class<out XPageActivity?>
+        clazz: Class<T>?, containActivityClazz: Class<out XPageActivity?>
     ): Fragment? {
-        return PageOption(clazz)
-            .setNewActivity(true)
-            .setContainActivityClazz(containActivityClazz)
+        return PageOption(clazz).setNewActivity(true).setContainActivityClazz(containActivityClazz)
             .open(this)
     }
 
@@ -129,33 +122,15 @@ abstract class BaseSimpleListFragment : XPageSimpleListFragment() {
 
     private fun openPage(option: PageOption, key: String?, value: Any?): Fragment? {
         when (value) {
-            is Int -> {
-                option.putInt(key, value)
-            }
-            is Float -> {
-                option.putFloat(key, value)
-            }
-            is String -> {
-                option.putString(key, value)
-            }
-            is Boolean -> {
-                option.putBoolean(key, value)
-            }
-            is Long -> {
-                option.putLong(key, value)
-            }
-            is Double -> {
-                option.putDouble(key, value)
-            }
-            is Parcelable -> {
-                option.putParcelable(key, value)
-            }
-            is Serializable -> {
-                option.putSerializable(key, value)
-            }
-            else -> {
-                option.putString(key, serializeObject(value))
-            }
+            is Int -> option.putInt(key, value)
+            is Float -> option.putFloat(key, value)
+            is String -> option.putString(key, value)
+            is Boolean -> option.putBoolean(key, value)
+            is Long -> option.putLong(key, value)
+            is Double -> option.putDouble(key, value)
+            is Parcelable -> option.putParcelable(key, value)
+            is Serializable -> option.putSerializable(key, value)
+            else -> option.putString(key, serializeObject(value))
         }
         return option.open(this)
     }
@@ -171,15 +146,9 @@ abstract class BaseSimpleListFragment : XPageSimpleListFragment() {
      * @return
     </T> */
     fun <T : XPageFragment?> openPage(
-        clazz: Class<T>?,
-        addToBackStack: Boolean,
-        key: String?,
-        value: String?
+        clazz: Class<T>?, addToBackStack: Boolean, key: String?, value: String?
     ): Fragment? {
-        return PageOption(clazz)
-            .setAddToBackStack(addToBackStack)
-            .putString(key, value)
-            .open(this)
+        return PageOption(clazz).setAddToBackStack(addToBackStack).putString(key, value).open(this)
     }
 
     /**
@@ -206,10 +175,7 @@ abstract class BaseSimpleListFragment : XPageSimpleListFragment() {
      * @return
     </T> */
     fun <T : XPageFragment?> openPage(
-        clazz: Class<T>?,
-        addToBackStack: Boolean,
-        key: String?,
-        value: Any?
+        clazz: Class<T>?, addToBackStack: Boolean, key: String?, value: Any?
     ): Fragment? {
         val option = PageOption(clazz).setAddToBackStack(addToBackStack)
         return openPage(option, key, value)
@@ -225,9 +191,7 @@ abstract class BaseSimpleListFragment : XPageSimpleListFragment() {
      * @return
     </T> */
     fun <T : XPageFragment?> openPage(clazz: Class<T>?, key: String?, value: String?): Fragment? {
-        return PageOption(clazz)
-            .putString(key, value)
-            .open(this)
+        return PageOption(clazz).putString(key, value).open(this)
     }
 
     /**
@@ -241,10 +205,7 @@ abstract class BaseSimpleListFragment : XPageSimpleListFragment() {
      * @return
     </T> */
     fun <T : XPageFragment?> openPageForResult(
-        clazz: Class<T>?,
-        key: String?,
-        value: Any?,
-        requestCode: Int
+        clazz: Class<T>?, key: String?, value: Any?, requestCode: Int
     ): Fragment? {
         val option = PageOption(clazz).setRequestCode(requestCode)
         return openPage(option, key, value)
@@ -261,15 +222,9 @@ abstract class BaseSimpleListFragment : XPageSimpleListFragment() {
      * @return
     </T> */
     fun <T : XPageFragment?> openPageForResult(
-        clazz: Class<T>?,
-        key: String?,
-        value: String?,
-        requestCode: Int
+        clazz: Class<T>?, key: String?, value: String?, requestCode: Int
     ): Fragment? {
-        return PageOption(clazz)
-            .setRequestCode(requestCode)
-            .putString(key, value)
-            .open(this)
+        return PageOption(clazz).setRequestCode(requestCode).putString(key, value).open(this)
     }
 
     /**
@@ -281,9 +236,7 @@ abstract class BaseSimpleListFragment : XPageSimpleListFragment() {
      * @return
     </T> */
     fun <T : XPageFragment?> openPageForResult(clazz: Class<T>?, requestCode: Int): Fragment? {
-        return PageOption(clazz)
-            .setRequestCode(requestCode)
-            .open(this)
+        return PageOption(clazz).setRequestCode(requestCode).open(this)
     }
 
     /**
