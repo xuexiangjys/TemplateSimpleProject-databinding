@@ -106,7 +106,7 @@ abstract class DataBindingFragment<DataBinding : ViewDataBinding?, VM : ViewMode
     }
 
     open fun initTitle(): TitleBar? {
-        return TitleUtils.addTitleBarDynamic(rootView as ViewGroup, pageTitle) { popToBack() }
+        return TitleUtils.addTitleBarDynamic(toolbarContainer, pageTitle) { popToBack() }
     }
 
     override fun initListeners() {}
