@@ -18,7 +18,7 @@ package com.xuexiang.templateproject.utils.sdkinit
 
 import android.app.Application
 import com.xuexiang.templateproject.MyApp
-import com.xuexiang.templateproject.core.DataBindingActivity
+import com.xuexiang.templateproject.core.databinding.DataBindingActivity
 import com.xuexiang.xaop.XAOP
 import com.xuexiang.xpage.PageConfig
 import com.xuexiang.xrouter.launcher.XRouter

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 xuexiangjys(xuexiangjys@163.com)
+ * Copyright (C) 2023 xuexiangjys(xuexiangjys@163.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,23 +14,27 @@
  * limitations under the License.
  *
  */
-package com.xuexiang.templateproject.activity
 
-import android.os.Bundle
-import androidx.databinding.ViewDataBinding
-import com.xuexiang.templateproject.core.databinding.DataBindingActivity
-import com.xuexiang.templateproject.fragment.MainFragment
+package com.xuexiang.databindingsample.core.databinding
+
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 
 /**
- * 程序入口，空壳容器
+ * 基础AndroidViewModel
+ *
+ * 存放通用的状态
  *
  * @author xuexiang
- * @since 2019-07-07 23:53
+ * @since 2023/4/22 23:24
  */
-class MainActivity : DataBindingActivity<ViewDataBinding?>() {
+abstract class DataBindingPageState(application: Application) : AndroidViewModel(application) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        openPage(MainFragment::class.java)
-    }
+    val isLoading = MutableLiveData(false)
+
+    val title = MutableLiveData(this.initTitle())
+
+    abstract fun initTitle() : String
+
 }

@@ -14,13 +14,12 @@
  * limitations under the License.
  *
  */
-package com.xuexiang.templateproject.core
+package com.xuexiang.templateproject.core.databinding
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import androidx.viewbinding.ViewBinding
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import com.xuexiang.xpage.base.XPageActivity
 import com.xuexiang.xpage.base.XPageFragment
 import com.xuexiang.xpage.core.CoreSwitchBean
@@ -29,17 +28,17 @@ import com.xuexiang.xrouter.launcher.XRouter
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 
 /**
- * 基础容器Activity(ViewBinding)
+ * 基础容器Activity(DataBinding)
  *
  * @author XUE
  * @since 2019/3/22 11:21
  */
-open class ViewBindingActivity<Binding : ViewBinding?> : XPageActivity() {
+open class DataBindingActivity<DataBinding : ViewDataBinding?> : XPageActivity() {
 
     /**
      * ViewBinding
      */
-    var binding: Binding? = null
+    var binding: DataBinding? = null
         protected set
 
     override fun attachBaseContext(newBase: Context) {
@@ -47,34 +46,30 @@ open class ViewBindingActivity<Binding : ViewBinding?> : XPageActivity() {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
     }
 
-    override fun getCustomRootView(): View? {
-        binding = viewBindingInflate(layoutInflater)
-        onViewBindingUpdate(binding)
-        return binding?.root
-    }
-
-    /**
-     * ViewBinding更新
-     * @param binding ViewBinding
-     */
-    open fun onViewBindingUpdate(binding: Binding?) {
-
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         initStatusBarStyle()
         super.onCreate(savedInstanceState)
     }
 
-    /**
-     * 构建ViewBinding
-     *
-     * @param inflater  inflater
-     * @return ViewBinding
-     */
-    open fun viewBindingInflate(inflater: LayoutInflater?): Binding? {
-        return null
+    override fun setContentView() {
+        val rootId = getCustomRootId()
+        if (rootId != -1) {
+            binding = DataBindingUtil.setContentView(this, rootId)
+            onDataBindingUpdate(binding)
+        } else {
+            setContentView(baseLayout)
+        }
     }
+
+    /**
+     * DataBinding更新
+     * @param binding DataBinding
+     */
+    open fun onDataBindingUpdate(binding: DataBinding?) {
+
+    }
+
+    open fun getCustomRootId() = -1
 
     /**
      * 初始化状态栏的样式
@@ -83,13 +78,14 @@ open class ViewBindingActivity<Binding : ViewBinding?> : XPageActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        onViewBindingUnbind()
+        onDataBindingUnbind()
     }
 
     /**
-     * ViewBinding解绑
+     * DataBinding解绑
      */
-    open fun onViewBindingUnbind() {
+    open fun onDataBindingUnbind() {
+        binding?.unbind()
         binding = null
     }
 
@@ -130,11 +126,11 @@ open class ViewBindingActivity<Binding : ViewBinding?> : XPageActivity() {
     /**
      * 序列化对象
      *
-     * @param target 序列化目标
+     * @param object
      * @return
      */
-    fun serializeObject(target: Any?): String {
+    fun serializeObject(`object`: Any?): String {
         return XRouter.getInstance().navigation(SerializationService::class.java)
-            .object2Json(target)
+            .object2Json(`object`)
     }
 }

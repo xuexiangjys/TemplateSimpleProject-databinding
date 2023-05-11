@@ -14,12 +14,13 @@
  * limitations under the License.
  *
  */
-package com.xuexiang.templateproject.core
+package com.xuexiang.templateproject.core.viewbinding
 
 import android.content.Context
 import android.os.Bundle
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
+import android.view.LayoutInflater
+import android.view.View
+import androidx.viewbinding.ViewBinding
 import com.xuexiang.xpage.base.XPageActivity
 import com.xuexiang.xpage.base.XPageFragment
 import com.xuexiang.xpage.core.CoreSwitchBean
@@ -28,17 +29,17 @@ import com.xuexiang.xrouter.launcher.XRouter
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
 
 /**
- * 基础容器Activity(DataBinding)
+ * 基础容器Activity(ViewBinding)
  *
  * @author XUE
  * @since 2019/3/22 11:21
  */
-open class DataBindingActivity<DataBinding : ViewDataBinding?> : XPageActivity() {
+open class ViewBindingActivity<Binding : ViewBinding?> : XPageActivity() {
 
     /**
      * ViewBinding
      */
-    var binding: DataBinding? = null
+    var binding: Binding? = null
         protected set
 
     override fun attachBaseContext(newBase: Context) {
@@ -46,30 +47,34 @@ open class DataBindingActivity<DataBinding : ViewDataBinding?> : XPageActivity()
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
     }
 
+    override fun getCustomRootView(): View? {
+        binding = viewBindingInflate(layoutInflater)
+        onViewBindingUpdate(binding)
+        return binding?.root
+    }
+
+    /**
+     * ViewBinding更新
+     * @param binding ViewBinding
+     */
+    open fun onViewBindingUpdate(binding: Binding?) {
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         initStatusBarStyle()
         super.onCreate(savedInstanceState)
     }
 
-    override fun setContentView() {
-        val rootId = getCustomRootId()
-        if (rootId != -1) {
-            binding = DataBindingUtil.setContentView(this, rootId)
-            onDataBindingUpdate(binding)
-        } else {
-            setContentView(baseLayout)
-        }
-    }
-
     /**
-     * DataBinding更新
-     * @param binding DataBinding
+     * 构建ViewBinding
+     *
+     * @param inflater  inflater
+     * @return ViewBinding
      */
-    open fun onDataBindingUpdate(binding: DataBinding?) {
-
+    open fun viewBindingInflate(inflater: LayoutInflater?): Binding? {
+        return null
     }
-
-    open fun getCustomRootId() = -1
 
     /**
      * 初始化状态栏的样式
@@ -78,14 +83,13 @@ open class DataBindingActivity<DataBinding : ViewDataBinding?> : XPageActivity()
 
     override fun onDestroy() {
         super.onDestroy()
-        onDataBindingUnbind()
+        onViewBindingUnbind()
     }
 
     /**
-     * DataBinding解绑
+     * ViewBinding解绑
      */
-    open fun onDataBindingUnbind() {
-        binding?.unbind()
+    open fun onViewBindingUnbind() {
         binding = null
     }
 
@@ -126,11 +130,11 @@ open class DataBindingActivity<DataBinding : ViewDataBinding?> : XPageActivity()
     /**
      * 序列化对象
      *
-     * @param object
+     * @param target 序列化目标
      * @return
      */
-    fun serializeObject(`object`: Any?): String {
+    fun serializeObject(target: Any?): String {
         return XRouter.getInstance().navigation(SerializationService::class.java)
-            .object2Json(`object`)
+            .object2Json(target)
     }
 }

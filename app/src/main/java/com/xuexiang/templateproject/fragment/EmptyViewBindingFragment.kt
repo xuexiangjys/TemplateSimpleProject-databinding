@@ -19,7 +19,7 @@ package com.xuexiang.templateproject.fragment
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.xuexiang.templateproject.core.ViewBindingFragment
+import com.xuexiang.templateproject.core.viewbinding.ViewBindingFragment
 import com.xuexiang.templateproject.databinding.FragmentViewBindingEmptyBinding
 import com.xuexiang.xpage.annotation.Page
 
@@ -34,10 +34,12 @@ class EmptyViewBindingFragment : ViewBindingFragment<FragmentViewBindingEmptyBin
 
     override fun viewBindingInflate(
         inflater: LayoutInflater,
-        container: ViewGroup
-    ) = FragmentViewBindingEmptyBinding.inflate(inflater, container, false)
+        container: ViewGroup?,
+        attachToRoot: Boolean
+    ) = FragmentViewBindingEmptyBinding.inflate(inflater, container, attachToRoot)
 
 
     override fun initViews() {
+
     }
 }
