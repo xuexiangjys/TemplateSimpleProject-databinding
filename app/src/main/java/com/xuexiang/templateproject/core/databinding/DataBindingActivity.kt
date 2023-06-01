@@ -33,7 +33,7 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper
  * @author XUE
  * @since 2019/3/22 11:21
  */
-open class DataBindingActivity<DataBinding : ViewDataBinding?> : XPageActivity() {
+open class DataBindingActivity<DataBinding : ViewDataBinding> : XPageActivity() {
 
     /**
      * ViewBinding

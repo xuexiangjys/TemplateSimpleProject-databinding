@@ -27,7 +27,7 @@ import com.xuexiang.templateproject.fragment.MainFragment
  * @author xuexiang
  * @since 2019-07-07 23:53
  */
-class MainActivity : DataBindingActivity<ViewDataBinding?>() {
+class MainActivity : DataBindingActivity<ViewDataBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
