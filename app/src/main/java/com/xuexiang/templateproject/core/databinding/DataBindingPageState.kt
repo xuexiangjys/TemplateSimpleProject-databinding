@@ -15,7 +15,7 @@
  *
  */
 
-package com.xuexiang.databindingsample.core.databinding
+package com.xuexiang.templateproject.core.databinding
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -35,6 +35,6 @@ abstract class DataBindingPageState(application: Application) : AndroidViewModel
 
     val title = MutableLiveData(this.initTitle())
 
-    abstract fun initTitle() : String
+    abstract fun initTitle(): String
 
 }

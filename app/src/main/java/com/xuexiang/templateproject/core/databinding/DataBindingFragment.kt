@@ -49,8 +49,8 @@ import java.lang.reflect.Type
  * @author xuexiang
  * @since 2018/5/25 下午3:44
  */
-abstract class DataBindingFragment<DataBinding : ViewDataBinding?, VM : ViewModel> :
-    XPageFragment(), OnDataBindingListener {
+abstract class DataBindingFragment<DataBinding : ViewDataBinding, VM : ViewModel> :
+    XPageFragment(), OnDataBindingListener, IDataBindingProvider<DataBinding> {
 
     private var mMessageLoader: IMessageLoader? = null
 
@@ -59,6 +59,8 @@ abstract class DataBindingFragment<DataBinding : ViewDataBinding?, VM : ViewMode
      */
     var binding: DataBinding? = null
         protected set
+
+    override fun getViewBinding() = binding
 
     /**
      * viewModel
@@ -85,7 +87,7 @@ abstract class DataBindingFragment<DataBinding : ViewDataBinding?, VM : ViewMode
         attachToRoot: Boolean
     ): View? {
         binding =
-            DataBindingUtil.inflate<DataBinding>(inflater, getLayoutId(), container, attachToRoot)
+            DataBindingUtil.inflate(inflater, getLayoutId(), container, attachToRoot)
         return binding?.bindViewModel(viewLifecycleOwner, viewModel, this)
     }
 

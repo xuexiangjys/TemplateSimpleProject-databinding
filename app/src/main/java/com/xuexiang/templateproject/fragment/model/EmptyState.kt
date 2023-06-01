@@ -17,7 +17,7 @@
 
 package com.xuexiang.templateproject.fragment.model
 
-import com.xuexiang.databindingsample.core.databinding.DataBindingState
+import com.xuexiang.templateproject.core.databinding.DataBindingState
 
 /**
  * State存储数据状态

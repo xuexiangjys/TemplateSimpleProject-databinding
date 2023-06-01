@@ -29,7 +29,7 @@ import com.xuexiang.xpage.annotation.Page
  * @since 2019-07-08 00:52
  */
 @Page(name = "DataBinding空页面")
-class EmptyDataBindingFragment : DataBindingFragment<FragmentDataBindingEmptyBinding?, EmptyState>() {
+class EmptyDataBindingFragment : DataBindingFragment<FragmentDataBindingEmptyBinding, EmptyState>() {
 
     override fun getLayoutId() = R.layout.fragment_data_binding_empty
 

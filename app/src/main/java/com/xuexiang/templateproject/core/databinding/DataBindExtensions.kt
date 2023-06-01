@@ -60,6 +60,15 @@ interface OnDataBindingListener {
     fun onDataBindingUnbind()
 }
 
+/**
+ * 提供DataBinding的接口
+ *
+ * @author xuexiang
+ * @since 2023/4/23 00:11
+ */
+interface IDataBindingProvider<DataBinding : ViewDataBinding> {
 
+    fun getViewBinding(): DataBinding?
+}
 
 

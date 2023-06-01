@@ -17,23 +17,23 @@
 
 package com.xuexiang.templateproject.core.databinding
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.databinding.ViewDataBinding
 
 /**
- * 基础ViewModel
- *
- * 存放通用的状态
+ * 提供ViewBinding的State
  *
  * @author xuexiang
- * @since 2023/4/22 23:24
+ * @since 2023/6/2 00:39
  */
-abstract class DataBindingState : ViewModel() {
+abstract class DataBindingProviderState<DataBinding : ViewDataBinding>(application: Application) :
+    DataBindingPageState(application) {
 
-    val isLoading = MutableLiveData(false)
+    private var provider: IDataBindingProvider<DataBinding>? = null
 
-    val title = MutableLiveData(this.initTitle())
+    fun getBinding() = provider?.getViewBinding()
 
-    abstract fun initTitle(): String
-
+    fun setDataBindingProvider(iProvider: IDataBindingProvider<DataBinding>?) {
+        provider = iProvider
+    }
 }

@@ -30,7 +30,7 @@ import com.xuexiang.xpage.annotation.Page
  * @since 2022/7/7 1:40 上午
  */
 @Page(name = "ViewBinding空页面")
-class EmptyViewBindingFragment : ViewBindingFragment<FragmentViewBindingEmptyBinding?>() {
+class EmptyViewBindingFragment : ViewBindingFragment<FragmentViewBindingEmptyBinding>() {
 
     override fun viewBindingInflate(
         inflater: LayoutInflater,
