@@ -18,6 +18,8 @@
 package com.xuexiang.templateproject.core.databinding
 
 import android.view.View
+import androidx.activity.ComponentActivity
+import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.LifecycleOwner
@@ -29,10 +31,10 @@ import androidx.lifecycle.ViewModel
  * @author xuexiang
  * @since 2023/4/23 00:05
  */
-fun ViewDataBinding.bindViewModel(
+fun <DataBinding : ViewDataBinding> DataBinding.bindViewModel(
     viewLifecycleOwner: LifecycleOwner,
     viewModel: ViewModel,
-    onBinding: OnDataBindingListener,
+    onBinding: OnDataBindingListener<DataBinding>,
     variableId: Int = BR.state
 ): View {
     lifecycleOwner = viewLifecycleOwner
@@ -41,18 +43,27 @@ fun ViewDataBinding.bindViewModel(
     return root
 }
 
+fun <DataBinding : ViewDataBinding> bindActivity(
+    activity: ComponentActivity,
+    layoutId: Int,
+    onBinding: OnDataBindingListener<DataBinding>,
+): DataBinding = DataBindingUtil.setContentView<DataBinding>(activity, layoutId).apply {
+    lifecycleOwner = activity
+    onBinding.onDataBindingUpdate(this)
+}
+
 /**
  * DataBinding监听
  *
  * @author xuexiang
  * @since 2023/4/23 00:11
  */
-interface OnDataBindingListener {
+interface OnDataBindingListener<DataBinding : ViewDataBinding> {
     /**
      * DataBinding更新
      * @param binding DataBinding
      */
-    fun onDataBindingUpdate(binding: ViewDataBinding)
+    fun onDataBindingUpdate(binding: DataBinding)
 
     /**
      * DataBinding解绑

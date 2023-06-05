@@ -50,7 +50,7 @@ import java.lang.reflect.Type
  * @since 2018/5/25 下午3:44
  */
 abstract class DataBindingFragment<DataBinding : ViewDataBinding, VM : ViewModel> :
-    XPageFragment(), OnDataBindingListener, IDataBindingProvider<DataBinding> {
+    XPageFragment(), OnDataBindingListener<DataBinding>, IDataBindingProvider<DataBinding> {
 
     private var mMessageLoader: IMessageLoader? = null
 
@@ -95,7 +95,7 @@ abstract class DataBindingFragment<DataBinding : ViewDataBinding, VM : ViewModel
      * DataBinding更新
      * @param binding DataBinding
      */
-    override fun onDataBindingUpdate(binding: ViewDataBinding) {
+    override fun onDataBindingUpdate(binding: DataBinding) {
 
     }
 

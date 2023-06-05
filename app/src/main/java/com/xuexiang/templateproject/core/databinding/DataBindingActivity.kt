@@ -18,7 +18,6 @@ package com.xuexiang.templateproject.core.databinding
 
 import android.content.Context
 import android.os.Bundle
-import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.xuexiang.xpage.base.XPageActivity
 import com.xuexiang.xpage.base.XPageFragment
@@ -33,7 +32,8 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper
  * @author XUE
  * @since 2019/3/22 11:21
  */
-open class DataBindingActivity<DataBinding : ViewDataBinding> : XPageActivity() {
+open class DataBindingActivity<DataBinding : ViewDataBinding> : XPageActivity(),
+    OnDataBindingListener<DataBinding> {
 
     /**
      * ViewBinding
@@ -54,8 +54,7 @@ open class DataBindingActivity<DataBinding : ViewDataBinding> : XPageActivity() 
     override fun setContentView() {
         val rootId = getCustomRootId()
         if (rootId != -1) {
-            binding = DataBindingUtil.setContentView(this, rootId)
-            onDataBindingUpdate(binding)
+            binding = bindActivity(this, rootId, this)
         } else {
             setContentView(baseLayout)
         }
@@ -65,7 +64,7 @@ open class DataBindingActivity<DataBinding : ViewDataBinding> : XPageActivity() 
      * DataBinding更新
      * @param binding DataBinding
      */
-    open fun onDataBindingUpdate(binding: DataBinding?) {
+    override fun onDataBindingUpdate(binding: DataBinding) {
 
     }
 
@@ -84,7 +83,7 @@ open class DataBindingActivity<DataBinding : ViewDataBinding> : XPageActivity() 
     /**
      * DataBinding解绑
      */
-    open fun onDataBindingUnbind() {
+    override fun onDataBindingUnbind() {
         binding?.unbind()
         binding = null
     }
